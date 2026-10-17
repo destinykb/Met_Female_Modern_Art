@@ -252,27 +252,47 @@ st.markdown(
 # -----------------------------------------------------------------------------
 # 2. Data Ingestion
 # -----------------------------------------------------------------------------
-DATA_DIR = Path("/Users/destinybrewington/PycharmProjects/Met_Female_Modern_Art")
-AUDIT_CSV = DATA_DIR / "met_modern_art.csv"
-NUDES_CSV = DATA_DIR / "art_images.csv"
+# Resolve paths relative to app.py in any environment (local Mac or Cloud Linux)
+BASE_DIR = Path(__file__).resolve().parent
+
+# Check for files in root first, then fallback to a data/ subfolder
+AUDIT_CSV = (
+    BASE_DIR / "met_modern_art.csv"
+    if (BASE_DIR / "met_modern_art.csv").exists()
+    else BASE_DIR / "data" / "met_modern_art.csv"
+)
+
+NUDES_CSV = (
+    BASE_DIR / "art_images.csv"
+    if (BASE_DIR / "art_images.csv").exists()
+    else BASE_DIR / "data" / "art_images.csv"
+)
 
 
 @st.cache_data
 def load_data():
-    df_audit = pd.read_csv(AUDIT_CSV, low_memory=False)
+  if not AUDIT_CSV.exists():
+    st.error(
+        f"Data file not found at: {AUDIT_CSV}. Ensure it is committed to GitHub."
+    )
+    st.stop()
+
+  df_audit = pd.read_csv(AUDIT_CSV, low_memory=False)
+  for col in ["Is_Female_Nude", "Is_Male_Nude", "Is_Nude"]:
+    df_audit[col] = df_audit[col].fillna(False).astype(bool)
+
+  if NUDES_CSV.exists():
+    df_nudes = pd.read_csv(NUDES_CSV, low_memory=False)
     for col in ["Is_Female_Nude", "Is_Male_Nude", "Is_Nude"]:
-        df_audit[col] = df_audit[col].fillna(False).astype(bool)
+      df_nudes[col] = df_nudes[col].fillna(False).astype(bool)
+    df_nudes["primaryImageSmall"] = (
+        df_nudes["primaryImageSmall"].fillna("").astype(str)
+    )
+  else:
+    df_nudes = df_audit[df_audit["Is_Nude"]].copy()
+    df_nudes["primaryImageSmall"] = ""
 
-    if NUDES_CSV.exists():
-        df_nudes = pd.read_csv(NUDES_CSV, low_memory=False)
-        for col in ["Is_Female_Nude", "Is_Male_Nude", "Is_Nude"]:
-            df_nudes[col] = df_nudes[col].fillna(False).astype(bool)
-        df_nudes["primaryImageSmall"] = df_nudes["primaryImageSmall"].fillna("").astype(str)
-    else:
-        df_nudes = df_audit[df_audit["Is_Nude"]].copy()
-        df_nudes["primaryImageSmall"] = ""
-
-    return df_audit, df_nudes
+  return df_audit, df_nudes
 
 
 df_audit, df_nudes = load_data()
@@ -456,19 +476,19 @@ with col_header_left:
     st.altair_chart(chart, use_container_width=True)
 
 with col_header_right:
-    local_img_candidates = [
-        Path("figure_sketch2.png"),
-        Path("figure_sketch2.png"),
-        DATA_DIR / "figure_sketch2.png",
-        DATA_DIR / "figure_sketch2.png",
-    ]
-    found_img = next((p for p in local_img_candidates if p.exists()), None)
+  local_img_candidates = [
+      BASE_DIR / "figure_sketch.PNG",
+      BASE_DIR / "figure_sketch.png",
+      BASE_DIR / "assets" / "figure_sketch.PNG",
+      BASE_DIR / "assets" / "figure_sketch.png",
+  ]
+  found_img = next((p for p in local_img_candidates if p.exists()), None)
 
-    if found_img:
-        st.image(str(found_img), use_container_width=True)
-    else:
-        st.markdown(
-            """
+  if found_img:
+    st.image(str(found_img), use_container_width=True)
+  else:
+    st.markdown(
+        """
             <div style="border: 4px solid #000; padding: 30px; background: #000; color: #FFE800; text-align: center; box-shadow: 6px 6px 0px #000;">
                 <h1 style="font-size: 3.5rem; margin: 0;">🦍</h1>
                 <p style="font-weight: 900; margin: 5px 0 0 0; text-transform: uppercase;">
@@ -476,8 +496,8 @@ with col_header_right:
                 </p>
             </div>
             """,
-            unsafe_allow_html=True,
-        )
+        unsafe_allow_html=True,
+    )
 
 # -----------------------------------------------------------------------------
 # SECTION 2: Subject Nudes Gallery
