@@ -8,7 +8,7 @@ An interactive Streamlit data audit examining gender representation and nude sub
 
 This project revisits and computationally tests the findings of the **Guerrilla Girls'** historic 1989 poster, replicating their public audit framework digitally using the Met’s Open Access collection data.
 
-**Live Dashboard:** https://womenofthemet.streamlit.app)
+**Live Dashboard:** https://womenofthemet.streamlit.app
 
 ---
 
