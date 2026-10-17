@@ -5,9 +5,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# -----------------------------------------------------------------------------
-# 1. Page Configuration & Custom CSS
-# -----------------------------------------------------------------------------
+# style
 st.set_page_config(
     page_title="Do Women Still Have To Be Naked?",
     page_icon="🦍",
@@ -249,13 +247,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# -----------------------------------------------------------------------------
-# 2. Data Ingestion
-# -----------------------------------------------------------------------------
-# Resolve paths relative to app.py in any environment (local Mac or Cloud Linux)
+# load data
+
 BASE_DIR = Path(__file__).resolve().parent
 
-# Check for files in root first, then fallback to a data/ subfolder
 AUDIT_CSV = (
     BASE_DIR / "met_modern_art.csv"
     if (BASE_DIR / "met_modern_art.csv").exists()
@@ -297,9 +292,7 @@ def load_data():
 
 df_audit, df_nudes = load_data()
 
-# -----------------------------------------------------------------------------
-# SECTION 1: Top Hero Banner, KPI Metrics & Linked Bar Chart (Left Column)
-# -----------------------------------------------------------------------------
+# primary dash
 col_header_left, col_header_right = st.columns([2.3, 1.2])
 
 with col_header_left:
@@ -312,7 +305,7 @@ with col_header_left:
         unsafe_allow_html=True,
     )
 
-    # Core Metric Calculations
+    # key metrics
     named_works = df_audit[
         df_audit["Gender Category"].isin(["Female", "Male"])
     ].copy()
@@ -373,9 +366,9 @@ with col_header_left:
             unsafe_allow_html=True,
         )
 
-    # -------------------------------------------------------------------------
-    # Placed on Left Column directly under KPI Cards
-    # -------------------------------------------------------------------------
+
+    # place on left
+
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
         '<div class="section-header" style="margin-top:0;">Female Artists vs. Female Nudes by Department</div>',
@@ -460,7 +453,7 @@ with col_header_left:
                     labelColor="#000000",
                     labelFontSize=12,
                     labelFontWeight="bold",
-                    offset=-6,  # Shifted upward toward the axis
+                    offset=-6,
                 ),
             ),
             tooltip=[
@@ -499,11 +492,10 @@ with col_header_right:
         unsafe_allow_html=True,
     )
 
-# -----------------------------------------------------------------------------
-# SECTION 2: Subject Nudes Gallery
-# -----------------------------------------------------------------------------
+# gallery
+
 st.markdown(
-    '<div class="section-header">On-View Nudes Catalog (Interactive Gallery)</div>',
+    '<div class="section-header">On-View Nude Artworks</div>',
     unsafe_allow_html=True,
 )
 
@@ -511,7 +503,7 @@ col_filt1, col_filt2 = st.columns([1, 2])
 with col_filt1:
     subject_filter = st.radio(
         "Filter Gallery by Subject:",
-        ["All Nudes", "Female Nudes Only", "Male Nudes Only"],
+        ["All Nudes", "Female Nude Subjects", "Male Nude Subjects"],
         horizontal=True,
     )
 
@@ -533,7 +525,7 @@ with col_filt2:
         unsafe_allow_html=True,
     )
 
-# Render HTML Cards
+# cards
 cards_html = ['<div class="gallery-grid">']
 
 for _, item in gallery_items.iterrows():

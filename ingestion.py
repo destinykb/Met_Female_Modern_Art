@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -9,7 +8,6 @@ DATA_DIR = Path(
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_PATH = DATA_DIR / "met_modern_art.csv"
 
-# GitHub Media endpoint for the official Met Open Access dataset
 GITHUB_LFS_URL = (
     "https://media.githubusercontent.com/media/metmuseum/openaccess/master/MetObjects.csv"
 )
@@ -42,7 +40,7 @@ for chunk in pd.read_csv(
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
     },
 ):
-    # 1. On Display Check
+    # on display
     gallery_str = (
         chunk["Gallery Number"].fillna("").astype(str).str.strip().str.lower()
     )
@@ -52,19 +50,17 @@ for chunk in pd.read_csv(
     if on_display.empty:
         continue
 
-    # 2. Date Filtering: 20th and 21st Century (1900 to Present)
-    # Coerce to numeric to prevent ValueError on string lifespans or empty values
+    # date filters
     end_dates = pd.to_numeric(on_display["Object End Date"], errors="coerce")
     begin_dates = pd.to_numeric(on_display["Object Begin Date"], errors="coerce")
 
-    # Match works created or finished in 1900 or later
     is_modern_era = (end_dates >= 1900) | (begin_dates >= 1900)
     era_works = on_display[is_modern_era].copy()
 
     if era_works.empty:
         continue
 
-    # 3. Classify Artist Gender (Affirmative schema)
+    # 3. gender
     raw_gender = (
         era_works["Artist Gender"]
         .fillna("")
@@ -94,7 +90,7 @@ for chunk in pd.read_csv(
         default="Male",
     )
 
-    # 4. Subject Tags Parsing: Distinct Regex with Word Boundaries (\b)
+    # search tags
     tags_str = era_works["Tags"].fillna("").astype(str).str.lower()
     era_works["Is_Female_Nude"] = tags_str.str.contains(
         r"\bfemale nudes?\b", regex=True, na=False
@@ -110,7 +106,6 @@ for chunk in pd.read_csv(
 
     matched_chunks.append(era_works)
 
-# Combine chunks
 audit_df = pd.concat(matched_chunks, ignore_index=True)
 audit_df.to_csv(OUTPUT_PATH, index=False)
 
@@ -119,13 +114,12 @@ print("GUERRILLA GIRLS AUDIT: 20TH & 21ST CENTURY ARTWORKS ON VIEW")
 print("=" * 55)
 print(f"Total 20th/21st Century Artworks On View: {len(audit_df)}")
 
-# Cohort of works by attributed artists
 named_works = audit_df[audit_df["Gender Category"].isin(["Female", "Male"])].copy()
 
 if not named_works.empty:
-    # -------------------------------------------------------------
-    # METRIC 1: Artwork-level Representation (% of works on view)
-    # -------------------------------------------------------------
+
+    # % of works on view
+
     total_named_works = len(named_works)
     female_works_count = len(
         named_works[named_works["Gender Category"] == "Female"]
@@ -137,9 +131,8 @@ if not named_works.empty:
         f"Works by Female Artists: {pct_female_works:.2f}% ({female_works_count} of {total_named_works})"
     )
 
-    # -------------------------------------------------------------
-    # METRIC 2: Artist-level Representation (% of unique artists)
-    # -------------------------------------------------------------
+    # % of unique artists)
+
     unique_artists = named_works.drop_duplicates(
         subset=["Artist Display Name"]
     ).copy()
@@ -168,9 +161,7 @@ if not named_works.empty:
         f"Avg Works Per Creator:   Female: {works_per_female:.2f} | Male: {works_per_male:.2f}"
     )
 
-# -----------------------------------------------------------------
-# METRIC 3: Subject Nude Breakdown
-# -----------------------------------------------------------------
+# nude Breakdown
 nudes_cohort = audit_df[audit_df["Is_Nude"]]
 if not nudes_cohort.empty:
     total_nudes = len(nudes_cohort)
@@ -186,7 +177,7 @@ if not nudes_cohort.empty:
 else:
     print("\nNo works with explicit nude tags detected.")
 
-# Department Breakdown
+# department Breakdown
 print("\nTop Departments Housing 20th/21st Century Works by Female Artists:")
 female_dept = audit_df[audit_df["Gender Category"] == "Female"]["Department"].value_counts()
 print(female_dept.head(6))
