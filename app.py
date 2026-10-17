@@ -477,10 +477,10 @@ with col_header_left:
 
 with col_header_right:
   local_img_candidates = [
-      BASE_DIR / "figure_sketch.PNG",
-      BASE_DIR / "figure_sketch.png",
-      BASE_DIR / "assets" / "figure_sketch.PNG",
-      BASE_DIR / "assets" / "figure_sketch.png",
+      BASE_DIR / "figure_sketch2.PNG",
+      BASE_DIR / "figure_sketch2.png",
+      BASE_DIR / "assets" / "figure_sketch2.PNG",
+      BASE_DIR / "assets" / "figure_sketch2.png",
   ]
   found_img = next((p for p in local_img_candidates if p.exists()), None)
 
