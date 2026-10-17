@@ -1,6 +1,9 @@
 # Do Women Still Have to Be Naked to Get Into the Met. Museum? 
 Destiny Brewington
 
+<img width="2626" height="1397" alt="image" src="https://github.com/user-attachments/assets/65a94d29-129b-442f-831b-a5b69ab9778d" />
+
+
 An interactive Streamlit data audit examining gender representation and nude subject depiction across 20th and 21st-century modern artworks currently on view at The Metropolitan Museum of Art. 
 
 This project revisits and computationally tests the findings of the **Guerrilla Girls'** historic 1989 poster, replicating their public audit framework digitally using the Met’s Open Access collection data.
