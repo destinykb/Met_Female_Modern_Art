@@ -1,5 +1,5 @@
 # Do Women Still Have to Be Naked to Get Into the Met. Museum? 
-# Destiny Brewington
+Destiny Brewington
 
 An interactive Streamlit data audit examining gender representation and nude subject depiction across 20th and 21st-century modern artworks currently on view at The Metropolitan Museum of Art. 
 
