@@ -35,14 +35,14 @@ Auditing **2,888 on-view artworks** created from 1900 to the present across all 
    * Standardized creator gender using an affirmative schema (`Female`, `Male`, `Unknown / Unattributed`).
    * Parsed multi-valued tag strings using regex word boundaries (`\bfemale nudes?\b` vs. `\bmale nudes?\b`) to resolve substring naming collisions and handle singular/plural variations.
 4. **Images:**
-   * Enriched the nude artworks cohort by querying the Met Collection REST API for public domain and Creative Commons thumbnail endpoints (`primaryImageSmall`), providing graceful fallback metadata cards for copyright-restricted works.
+   * Queried the Met Collection REST API for public domain and Creative Commons thumbnail endpoints (`primaryImageSmall`).
 
 ---
 
 ## Dashboard
 
-* **High-Contrast Guerrilla Girls Aesthetic:** Styled with the signature `#FFE800` yellow backdrop, bold grotesk typography, and high-impact red statistical callouts.
+* **High-Contrast Guerrilla Girls Aesthetic:** Styled with the signature yellow backdrop and red statistical callouts.
 * **Curatorial Disparity Visualizations:** Interactive grouped bar chart breaking down the ratio of female artists vs. female nude subjects across top curatorial departments.
-* **Interactive Gallery:** Responsive thumbnail grid featuring hover cards displaying title, artist, medium, date, and gallery numbers for image-backed works.
+* **Interactive Gallery:** Responsive thumbnail grid featuring hover cards displaying title, artist, medium, date, and gallery numbers for nude artworks.
 
 ---
