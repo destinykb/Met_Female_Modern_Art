@@ -8,8 +8,9 @@ An interactive Streamlit data audit examining gender representation and nude sub
 
 This project revisits the findings of the Guerrilla Girls' historic 1989 poster, **Do women have to be naked to get into the Met. Museum?** https://www.metmuseum.org/art/collection/search/849438, replicating their public audit framework computationally using the Met’s Open Access collection data.
 
-**Live Dashboard:** https://womenofthemet.streamlit.app
-Artwork: Destiny Brewington
+**Live Dashboard**: https://womenofthemet.streamlit.app
+**Artwork**: Destiny Brewington
+
 ---
 
 ## Summary & Key Findings
