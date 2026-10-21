@@ -375,7 +375,7 @@ with col_header_left:
         unsafe_allow_html=True,
     )
 
-    top_depts = df_audit["Department"].value_counts().head(6).index.tolist()
+    top_depts = df_audit["Department"].value_counts().head(8).index.tolist()
     dept_rows = []
 
     for dept in top_depts:
