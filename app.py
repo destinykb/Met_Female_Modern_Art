@@ -57,9 +57,9 @@ st.markdown(
         /* Red Callout Metrics matching original poster colorway */
         .stat-card {
             background-color: #FFE800;
-            border: 4px solid #000000;
-            padding: 14px;
-            box-shadow: 5px 5px 0px #000000;
+            border: 2px solid #000000;
+            padding: 10px;
+            box-shadow: 2px 2px 0px #000000;
             height: 100%;
         }
         .stat-number-red {
