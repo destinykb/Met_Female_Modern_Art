@@ -608,7 +608,7 @@ st.markdown(
         <div>
             <strong>DATA SOURCE:</strong> <a href="https://github.com/metmuseum/openaccess" target="_blank">The Metropolitan Museum of Art Open Access CSV</a> & <a href="https://metmuseum.github.io/" target="_blank">REST Collection API</a>
             &nbsp;|&nbsp;
-            <strong>ILLUSTRATION:</strong> Destiny Brewington (<a href="https://github.com/destinykbrewington" target="_blank">GitHub</a>)
+            <strong>ILLUSTRATION:</strong> Destiny Brewington (<a href="https://github.com/destinykb" target="_blank">GitHub</a>)
             &nbsp;|&nbsp;
             <strong>AESTHETIC INSPIRATION:</strong> Guerrilla Girls, <em>Do women have to be naked to get into the Met. Museum?</em> (1989)
         </div>
